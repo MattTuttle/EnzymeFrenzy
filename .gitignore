@@ -1,0 +1,9 @@
+*.sublime*
+.DS_Store
+bin
+Thumbs.db
+
+#intermediate formats
+*.wav
+*.pxi
+*.pxa
