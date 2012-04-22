@@ -1,6 +1,6 @@
 import com.haxepunk.Engine;
 import com.haxepunk.HXP;
-import worlds.GameWorld;
+import worlds.MainWorld;
 
 class Main extends Engine
 {
@@ -8,7 +8,7 @@ class Main extends Engine
 	public static inline var kScreenWidth:Int = 400;
 	public static inline var kScreenHeight:Int = 400;
 	public static inline var kFrameRate:Int = 30;
-	public static inline var kClearColor:Int = 0x515149;
+	public static inline var kClearColor:Int = 0x302B30;
 	public static inline var kProjectName:String = "HaxePunk";
 
 	public function new()
@@ -23,12 +23,12 @@ class Main extends Engine
 		if (flash.system.Capabilities.isDebugger)
 	#end
 		{
-			HXP.console.enable();
+//			HXP.console.enable();
 		}
 #end
 		HXP.screen.color = kClearColor;
 		HXP.screen.scale = 1;
-		HXP.world = new GameWorld();
+		HXP.world = new MainWorld();
 	}
 
 	public static function main()

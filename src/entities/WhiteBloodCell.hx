@@ -3,8 +3,10 @@ package entities;
 import flash.geom.Point;
 import com.haxepunk.Entity;
 import com.haxepunk.HXP;
+import com.haxepunk.Sfx;
 import com.haxepunk.graphics.Spritemap;
 import com.haxepunk.graphics.Text;
+import com.haxepunk.masks.Circle;
 import com.haxepunk.utils.Input;
 import com.haxepunk.utils.Key;
 
@@ -20,14 +22,14 @@ class WhiteBloodCell extends Entity
 		sprite.add("move", [0, 1, 2], 16);
 		sprite.centerOO();
 		graphic = sprite;
-		dead = false;
+		mask = new Circle(8, -8, -8);
+
+		health = 1;
 
 		acceleration = new Point();
 		velocity = new Point();
 		gravity = new Point();
 		maxVelocity = new Point(5, 5);
-
-		setHitbox(16, 16, 8, 8);
 	}
 
 	public override function added()
@@ -88,7 +90,7 @@ class WhiteBloodCell extends Entity
 		if (Math.abs(velocity.y) < 0.5) velocity.y = 0;
 
 		// move and collide with entities
-		moveBy(velocity.x, velocity.y, ["germ", "enzyme"]);
+		moveBy(velocity.x, velocity.y, ["germ", "enzyme", "mother"]);
 
 		// rotate to angle
 		if (velocity.x != 0 || velocity.y != 0)
@@ -109,12 +111,13 @@ class WhiteBloodCell extends Entity
 		var germ:Germ = cast(e, Germ);
 		if (germ.sprite.color == sprite.color)
 		{
+			new Sfx("sfx/slurp").play(0.3);
 			world.remove(germ);
 		}
 		else
 		{
-			world.remove(this);
-			dead = true;
+			new Sfx("sfx/explode").play(0.2);
+			kill();
 		}
 		score += 3;
 	}
@@ -125,28 +128,28 @@ class WhiteBloodCell extends Entity
 		sprite.color = enzyme.image.color;
 		world.remove(enzyme);
 		score += 1;
+		new Sfx("sfx/pickup").play(0.3);
+	}
+
+	private inline function collideEntity(e:Entity)
+	{
+		switch (e.type)
+		{
+			case "enzyme":
+				collideEnzyme(e);
+			case "germ":
+				collideGerm(e);
+		}
 	}
 
 	public override function moveCollideX(e:Entity)
 	{
-		switch (e.type)
-		{
-			case "enzyme":
-				collideEnzyme(e);
-			case "germ":
-				collideGerm(e);
-		}
+		collideEntity(e);
 	}
 
 	public override function moveCollideY(e:Entity)
 	{
-		switch (e.type)
-		{
-			case "enzyme":
-				collideEnzyme(e);
-			case "germ":
-				collideGerm(e);
-		}
+		collideEntity(e);
 	}
 
 	public override function update()
@@ -158,6 +161,22 @@ class WhiteBloodCell extends Entity
 		handleAnimation();
 
 		super.update();
+	}
+
+	public function kill()
+	{
+		if (dead) return;
+		if (world != null)
+		{
+			world.remove(this);
+		}
+		health = 0;
+	}
+
+	public var dead(getDead, never):Bool;
+	private function getDead():Bool
+	{
+		return health <= 0;
 	}
 
 	private var acceleration:Point;
@@ -173,11 +192,10 @@ class WhiteBloodCell extends Entity
 		return value;
 	}
 
-	public var dead(default, null):Bool;
-
 	private static inline var DRAG:Float = 0.3;
 	private static inline var MOVE_SPEED:Float = 0.8;
 
+	private var health:Int;
 	private var sprite:Spritemap;
 
 }
