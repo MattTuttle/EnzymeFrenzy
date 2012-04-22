@@ -25,8 +25,12 @@ class GameWorld extends World
 		addTween(germTimer);
 		enzymeCount = 0;
 
-		var music = new Sfx("music/background");
-		music.loop(1, 0);
+		// don't layer the music...
+		if (music == null)
+		{
+			music = new Sfx("music/background");
+			music.loop(1, 0);
+		}
 	}
 
 	public override function begin()
@@ -92,6 +96,7 @@ class GameWorld extends World
 		super.update();
 	}
 
+	private static var music:Sfx;
 	private var gameover:Bool;
 	private var player:WhiteBloodCell;
 	private var enzymeCount:Int;
