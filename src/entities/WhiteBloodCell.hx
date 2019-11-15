@@ -20,7 +20,7 @@ class WhiteBloodCell extends Entity
 		sprite = new Spritemap("gfx/cell.png", 16, 16);
 		sprite.add("idle", [0]);
 		sprite.add("move", [0, 1, 2], 16);
-		sprite.centerOO();
+		sprite.centerOrigin();
 		graphic = sprite;
 		mask = new Circle(8, -8, -8);
 
@@ -35,6 +35,7 @@ class WhiteBloodCell extends Entity
 	public override function added()
 	{
 		scoreText = new Text("Score: 0", 20, 20, 100, 20);
+		scoreText.centerOrigin();
 		scene.addGraphic(scoreText).layer = 0;
 		score = 0;
 	}
@@ -111,12 +112,12 @@ class WhiteBloodCell extends Entity
 		var germ:Germ = cast(e, Germ);
 		if (germ.sprite.color == sprite.color)
 		{
-			new Sfx("sfx/slurp").play(0.3);
+			new Sfx("sfx/slurp.mp3").play(0.3);
 			scene.remove(germ);
 		}
 		else
 		{
-			new Sfx("sfx/explode").play(0.2);
+			new Sfx("sfx/explode.mp3").play(0.2);
 			kill();
 		}
 		score += 3;
@@ -129,7 +130,7 @@ class WhiteBloodCell extends Entity
 		sprite.color = enzyme.image.color;
 		scene.remove(enzyme);
 		score += 1;
-		new Sfx("sfx/pickup").play(0.3);
+		new Sfx("sfx/pickup.mp3").play(0.3);
 		return true;
 	}
 

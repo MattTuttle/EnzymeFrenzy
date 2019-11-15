@@ -22,26 +22,25 @@ class MainWorld extends Scene
 		// don't layer the music...
 		if (music == null)
 		{
-			music = new Sfx("music/background");
+			music = new Sfx("music/background.mp3");
 		}
 		music.loop(1, 0);
 		var fader = new Fader(TweenType.OneShot);
 		fader.fadeTo(1, 1);
-		addTween(fader);
-		fading = false;
+		addTween(fader, true);
 	}
 
 	public override function begin()
 	{
 		var image = new Image("gfx/title.png");
-		image.centerOO();
-		title = addGraphic(image, 5, Std.int(HXP.halfWidth), Std.int(HXP.halfHeight));
+		image.centerOrigin();
+		title = addGraphic(image, 5, HXP.halfWidth, HXP.halfHeight);
 
 		addGraphic(new Image("gfx/overlay.png"));
 
 		image = new Text("Click to Start");
-		image.centerOO();
-		addGraphic(image, 0, Std.int(HXP.halfWidth), Std.int(HXP.halfHeight) + 180);
+		image.centerOrigin();
+		addGraphic(image, 0, HXP.halfWidth, HXP.halfHeight + 180);
 
 		var colors = [0xFFFFFF, 0xFFFF55, 0xFF55FF, 0x55FF55];
 
@@ -77,22 +76,21 @@ class MainWorld extends Scene
 		title.x += Random.random - 0.5;
 		title.y += Random.random - 0.5;
 
-		if (Mouse.mousePressed && ! fading)
+		if (Mouse.mousePressed && fader == null)
 		{
-			fading = true;
-			var fader = new Fader(TweenType.OneShot);
+			fader = new Fader(TweenType.OneShot);
 			fader.onComplete.bind(function() {
 				HXP.scene = new InstructionWorld();
 				music.stop();
 			});
 			fader.fadeTo(0, 1);
-			addTween(fader);
+			addTween(fader, true);
 		}
 		super.update();
 	}
 
 	private static var music:Sfx;
 	private var title:Entity;
-	private var fading:Bool;
+	private var fader:Fader;
 
 }

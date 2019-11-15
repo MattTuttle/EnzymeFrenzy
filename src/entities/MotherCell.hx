@@ -14,7 +14,7 @@ class MotherCell extends Entity
 	{
 		super(HXP.halfWidth, HXP.halfHeight);
 		image = new Spritemap("gfx/mother.png", 32, 32);
-		image.centerOO();
+		image.centerOrigin();
 		graphic = image;
 		mask = new Circle(16, -16, -16);
 		health = 10;
@@ -29,7 +29,7 @@ class MotherCell extends Entity
 		image.angle += Random.random * 3 - 1;
 		if (e != null)
 		{
-			new Sfx("sfx/hit").play(0.3);
+			new Sfx("sfx/hit.mp3").play(0.3);
 			health -= 1;
 			image.frame = 10 - health;
 			scene.remove(e);
@@ -45,7 +45,7 @@ class MotherCell extends Entity
 	{
 		if (scene != null)
 		{
-			new Sfx("sfx/explosion").play(0.3);
+			new Sfx("sfx/explosion.mp3").play(0.3);
 			scene.remove(this);
 		}
 		health = 0;

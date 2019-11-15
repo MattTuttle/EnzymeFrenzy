@@ -23,8 +23,8 @@ class GameWorld extends Scene
 		super();
 		enzymeTimer = new Alarm(1, spawnEnzyme, TweenType.Persist);
 		germTimer = new Alarm(2, spawnGerm, TweenType.Persist);
-		addTween(enzymeTimer);
-		addTween(germTimer);
+		addTween(enzymeTimer, true);
+		addTween(germTimer, true);
 		enzymeCount = 0;
 		HXP.volume = 1;
 	}
@@ -99,11 +99,11 @@ class GameWorld extends Scene
 				player.kill();
 
 				var text = new Text("Game Over", HXP.halfWidth, HXP.halfHeight);
-				text.centerOO();
+				text.centerOrigin();
 				addGraphic(text).layer = 0;
 
 				text = new Text("Click to continue", HXP.halfWidth, HXP.halfHeight + 40);
-				text.centerOO();
+				text.centerOrigin();
 				addGraphic(text).layer = 0;
 			}
 			gameover = true;

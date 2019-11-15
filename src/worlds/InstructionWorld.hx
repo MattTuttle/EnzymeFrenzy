@@ -59,7 +59,7 @@ class InstructionWorld extends Scene
 	private function centeredText(text:String, y:Int)
 	{
 		var image = new Text(text);
-		image.centerOO();
+		image.centerOrigin();
 		addGraphic(image, 0, Std.int(HXP.halfWidth), Std.int(HXP.halfHeight) + y);
 	}
 

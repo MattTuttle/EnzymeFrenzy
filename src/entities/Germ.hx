@@ -16,7 +16,7 @@ class Germ extends Entity
 		HXP.shuffle(frames);
 		sprite.add("move", frames, 8);
 		sprite.play("move");
-		sprite.centerOO();
+		sprite.centerOrigin();
 		sprite.color = HXP.choose(Enzyme.colors);
 		graphic = sprite;
 
