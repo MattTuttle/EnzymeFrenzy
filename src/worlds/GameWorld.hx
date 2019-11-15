@@ -39,7 +39,7 @@ class GameWorld extends Scene
 
 		enzymeTimer.start();
 		germTimer.start();
-		addGraphic(new Image("gfx/overlay.png")).layer = 5;
+		addGraphic(new Image("graphics/overlay.png")).layer = 5;
 	}
 
 	private function spawnEnzyme()

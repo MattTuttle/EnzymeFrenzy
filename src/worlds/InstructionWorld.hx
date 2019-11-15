@@ -14,7 +14,7 @@ class InstructionWorld extends Scene
 	{
 		super();
 
-		addGraphic(new Image("gfx/overlay.png"));
+		addGraphic(new Image("graphics/overlay.png"));
 		var colors = [0xFFFFFF, 0x55FFFF, 0xFFFF55, 0xFF55FF];
 
 		centeredText("Move with the arrow keys", -180);
@@ -42,14 +42,14 @@ class InstructionWorld extends Scene
 
 	private function addEnzyme(x:Int, color:Int)
 	{
-		var enzyme = new Image("gfx/enzyme.png");
+		var enzyme = new Image("graphics/enzyme.png");
 		enzyme.color = color;
 		addGraphic(enzyme, 10, HXP.halfWidth + x, HXP.halfHeight - 100);
 	}
 
 	private function addGerm(x:Int, color:Int)
 	{
-		var germ = new Spritemap("gfx/germ.png", 16, 16);
+		var germ = new Spritemap("graphics/germ.png", 16, 16);
 		germ.add("idle", [0, 1, 2], 6);
 		germ.play("idle");
 		germ.color = color;

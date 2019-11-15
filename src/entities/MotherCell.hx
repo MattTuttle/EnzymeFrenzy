@@ -13,7 +13,7 @@ class MotherCell extends Entity
 	public function new()
 	{
 		super(HXP.halfWidth, HXP.halfHeight);
-		image = new Spritemap("gfx/mother.png", 32, 32);
+		image = new Spritemap("graphics/mother.png", 32, 32);
 		image.centerOrigin();
 		graphic = image;
 		mask = new Circle(16, -16, -16);

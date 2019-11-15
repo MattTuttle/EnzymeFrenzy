@@ -17,7 +17,7 @@ class WhiteBloodCell extends Entity
 	{
 		super(x, y);
 
-		sprite = new Spritemap("gfx/cell.png", 16, 16);
+		sprite = new Spritemap("graphics/cell.png", 16, 16);
 		sprite.add("idle", [0]);
 		sprite.add("move", [0, 1, 2], 16);
 		sprite.centerOrigin();

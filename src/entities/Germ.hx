@@ -11,7 +11,7 @@ class Germ extends Entity
 	public function new()
 	{
 		super(0, 0);
-		sprite = new Spritemap("gfx/germ.png", 16, 16);
+		sprite = new Spritemap("graphics/germ.png", 16, 16);
 		var frames = [0, 1, 2];
 		HXP.shuffle(frames);
 		sprite.add("move", frames, 8);
