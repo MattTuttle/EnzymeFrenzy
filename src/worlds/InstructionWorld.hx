@@ -1,13 +1,13 @@
 package worlds;
 
-import com.haxepunk.HXP;
-import com.haxepunk.World;
-import com.haxepunk.graphics.Image;
-import com.haxepunk.graphics.Spritemap;
-import com.haxepunk.graphics.Text;
-import com.haxepunk.utils.Input;
+import haxepunk.HXP;
+import haxepunk.Scene;
+import haxepunk.graphics.Image;
+import haxepunk.graphics.Spritemap;
+import haxepunk.graphics.text.Text;
+import haxepunk.input.Mouse;
 
-class InstructionWorld extends World
+class InstructionWorld extends Scene
 {
 
 	public function new()
@@ -65,9 +65,9 @@ class InstructionWorld extends World
 
 	public override function update()
 	{
-		if (Input.mousePressed)
+		if (Mouse.mousePressed)
 		{
-			HXP.world = new GameWorld();
+			HXP.scene = new GameWorld();
 		}
 		super.update();
 	}

@@ -1,5 +1,5 @@
-import com.haxepunk.Engine;
-import com.haxepunk.HXP;
+import haxepunk.Engine;
+import haxepunk.HXP;
 import worlds.MainWorld;
 
 class Main extends Engine
@@ -23,12 +23,12 @@ class Main extends Engine
 		if (flash.system.Capabilities.isDebugger)
 	#end
 		{
-//			HXP.console.enable();
+			HXP.console.enable();
 		}
 #end
 		HXP.screen.color = kClearColor;
-		HXP.screen.scale = 1;
-		HXP.world = new MainWorld();
+		// HXP.screen.scale = 1;
+		HXP.scene = new MainWorld();
 	}
 
 	public static function main()

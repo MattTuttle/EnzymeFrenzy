@@ -1,20 +1,21 @@
 package worlds;
 
-import com.haxepunk.HXP;
-import com.haxepunk.Sfx;
-import com.haxepunk.Tween;
-import com.haxepunk.World;
-import com.haxepunk.graphics.Image;
-import com.haxepunk.graphics.Text;
-import com.haxepunk.tweens.misc.Alarm;
-import com.haxepunk.utils.Input;
-import com.haxepunk.utils.Key;
+import haxepunk.HXP;
+import haxepunk.Sfx;
+import haxepunk.Tween;
+import haxepunk.Scene;
+import haxepunk.math.Random;
+import haxepunk.math.MathUtil;
+import haxepunk.graphics.Image;
+import haxepunk.graphics.text.Text;
+import haxepunk.tweens.misc.Alarm;
+import haxepunk.input.Mouse;
 import entities.MotherCell;
 import entities.WhiteBloodCell;
 import entities.Germ;
 import entities.Enzyme;
 
-class GameWorld extends World
+class GameWorld extends Scene
 {
 
 	public function new()
@@ -62,11 +63,11 @@ class GameWorld extends World
 		}
 
 		var enzyme = new Enzyme();
-		HXP.angleXY(enzyme, HXP.rand(360), HXP.rand(100) + 50, HXP.halfWidth, HXP.halfHeight);
+		MathUtil.angleXY(enzyme, Random.randInt(360), Random.randInt(100) + 50, HXP.halfWidth, HXP.halfHeight);
 		add(enzyme);
 		if (gameover == false)
 		{
-			enzymeTimer.reset(HXP.random * 5);
+			enzymeTimer.reset(Random.random * 5);
 		}
 	}
 
@@ -74,12 +75,12 @@ class GameWorld extends World
 	{
 		// TODO: check if an enzyme of matching color is currently on the screen
 		var germ = new Germ();
-		HXP.angleXY(germ, HXP.rand(360), 250, HXP.halfWidth, HXP.halfHeight);
+		MathUtil.angleXY(germ, Random.randInt(360), 250, HXP.halfWidth, HXP.halfHeight);
 		add(germ);
 
 		if (gameover == false)
 		{
-			germTimer.reset(HXP.random * 3);
+			germTimer.reset(Random.random * 3);
 		}
 	}
 
@@ -87,9 +88,9 @@ class GameWorld extends World
 	{
 		if (player.dead || mother.dead)
 		{
-			if (Input.mousePressed)
+			if (Mouse.mousePressed)
 			{
-				HXP.world = new MainWorld();
+				HXP.scene = new MainWorld();
 			}
 			// only do this once on game over
 			if (gameover == false)

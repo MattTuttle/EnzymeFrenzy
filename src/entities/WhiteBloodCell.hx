@@ -1,14 +1,14 @@
 package entities;
 
 import flash.geom.Point;
-import com.haxepunk.Entity;
-import com.haxepunk.HXP;
-import com.haxepunk.Sfx;
-import com.haxepunk.graphics.Spritemap;
-import com.haxepunk.graphics.Text;
-import com.haxepunk.masks.Circle;
-import com.haxepunk.utils.Input;
-import com.haxepunk.utils.Key;
+import haxepunk.Entity;
+import haxepunk.HXP;
+import haxepunk.Sfx;
+import haxepunk.math.MathUtil;
+import haxepunk.graphics.Spritemap;
+import haxepunk.graphics.text.Text;
+import haxepunk.masks.Circle;
+import haxepunk.input.Key;
 
 class WhiteBloodCell extends Entity
 {
@@ -35,7 +35,7 @@ class WhiteBloodCell extends Entity
 	public override function added()
 	{
 		scoreText = new Text("Score: 0", 20, 20, 100, 20);
-		world.addGraphic(scoreText).layer = 0;
+		scene.addGraphic(scoreText).layer = 0;
 		score = 0;
 	}
 
@@ -44,19 +44,19 @@ class WhiteBloodCell extends Entity
 		acceleration.x = gravity.x;
 		acceleration.y = gravity.y;
 
-		if (Input.check(Key.LEFT))
+		if (Key.check(Key.LEFT))
 		{
 			acceleration.x = -MOVE_SPEED;
 		}
-		if (Input.check(Key.RIGHT))
+		if (Key.check(Key.RIGHT))
 		{
 			acceleration.x = MOVE_SPEED;
 		}
-		if (Input.check(Key.UP))
+		if (Key.check(Key.UP))
 		{
 			acceleration.y = -MOVE_SPEED;
 		}
-		if (Input.check(Key.DOWN))
+		if (Key.check(Key.DOWN))
 		{
 			acceleration.y = MOVE_SPEED;
 		}
@@ -77,14 +77,14 @@ class WhiteBloodCell extends Entity
 	private inline function handleMovement()
 	{
 		velocity.x += acceleration.x;
-		if (Math.abs(velocity.x) > maxVelocity.x) velocity.x = maxVelocity.x * HXP.sign(velocity.x);
+		if (Math.abs(velocity.x) > maxVelocity.x) velocity.x = maxVelocity.x * MathUtil.sign(velocity.x);
 
 		velocity.x += DRAG * (velocity.x > 0 ? -1 : 1);
 		if (Math.abs(velocity.x) < 0.5) velocity.x = 0;
 
 
 		velocity.y += acceleration.y;
-		if (Math.abs(velocity.y) > maxVelocity.y) velocity.y = maxVelocity.y * HXP.sign(velocity.y);
+		if (Math.abs(velocity.y) > maxVelocity.y) velocity.y = maxVelocity.y * MathUtil.sign(velocity.y);
 
 		velocity.y += DRAG * (velocity.y > 0 ? -1 : 1);
 		if (Math.abs(velocity.y) < 0.5) velocity.y = 0;
@@ -95,24 +95,24 @@ class WhiteBloodCell extends Entity
 		// rotate to angle
 		if (velocity.x != 0 || velocity.y != 0)
 		{
-			sprite.angle = Math.atan2(velocity.y, velocity.x) * HXP.DEG;
+			sprite.angle = Math.atan2(velocity.y, velocity.x) * MathUtil.DEG;
 			if (sprite.angle < 0) sprite.angle += 360;
 		}
 
 		// clamp in microscope circle
-		if (HXP.distance(HXP.halfWidth, HXP.halfHeight, x, y) > 160) {
-			var angle = HXP.angle(HXP.halfWidth, HXP.halfHeight, x, y);
-			HXP.angleXY(this, angle, 160, HXP.halfWidth, HXP.halfHeight);
+		if (MathUtil.distance(HXP.halfWidth, HXP.halfHeight, x, y) > 160) {
+			var angle = MathUtil.angle(HXP.halfWidth, HXP.halfHeight, x, y);
+			MathUtil.angleXY(this, angle, 160, HXP.halfWidth, HXP.halfHeight);
 		}
 	}
 
-	private function collideGerm(e:Entity)
+	private function collideGerm(e:Entity):Bool
 	{
 		var germ:Germ = cast(e, Germ);
 		if (germ.sprite.color == sprite.color)
 		{
 			new Sfx("sfx/slurp").play(0.3);
-			world.remove(germ);
+			scene.remove(germ);
 		}
 		else
 		{
@@ -120,36 +120,40 @@ class WhiteBloodCell extends Entity
 			kill();
 		}
 		score += 3;
+		return true;
 	}
 
-	private function collideEnzyme(e:Entity)
+	private function collideEnzyme(e:Entity):Bool
 	{
 		var enzyme:Enzyme = cast(e, Enzyme);
 		sprite.color = enzyme.image.color;
-		world.remove(enzyme);
+		scene.remove(enzyme);
 		score += 1;
 		new Sfx("sfx/pickup").play(0.3);
+		return true;
 	}
 
-	private inline function collideEntity(e:Entity)
+	private inline function collideEntity(e:Entity):Bool
 	{
-		switch (e.type)
+		return switch (e.type)
 		{
 			case "enzyme":
 				collideEnzyme(e);
 			case "germ":
 				collideGerm(e);
+			default:
+				false;
 		}
 	}
 
-	public override function moveCollideX(e:Entity)
+	public override function moveCollideX(e:Entity):Bool
 	{
-		collideEntity(e);
+		return collideEntity(e);
 	}
 
-	public override function moveCollideY(e:Entity)
+	public override function moveCollideY(e:Entity):Bool
 	{
-		collideEntity(e);
+		return collideEntity(e);
 	}
 
 	public override function update()
@@ -166,15 +170,15 @@ class WhiteBloodCell extends Entity
 	public function kill()
 	{
 		if (dead) return;
-		if (world != null)
+		if (scene != null)
 		{
-			world.remove(this);
+			scene.remove(this);
 		}
 		health = 0;
 	}
 
-	public var dead(getDead, never):Bool;
-	private function getDead():Bool
+	public var dead(get_dead, never):Bool;
+	private function get_dead():Bool
 	{
 		return health <= 0;
 	}
@@ -185,8 +189,8 @@ class WhiteBloodCell extends Entity
 	private var maxVelocity:Point;
 
 	private var scoreText:Text;
-	private var score(default, setScore):Int;
-	private function setScore(value:Int):Int {
+	private var score(default, set_score):Int;
+	private function set_score(value:Int):Int {
 		score = value;
 		scoreText.text = "Score: " + score;
 		return value;

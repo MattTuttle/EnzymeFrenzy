@@ -1,8 +1,9 @@
 package entities;
 
-import com.haxepunk.Entity;
-import com.haxepunk.HXP;
-import com.haxepunk.graphics.Image;
+import haxepunk.Entity;
+import haxepunk.HXP;
+import haxepunk.math.Random;
+import haxepunk.graphics.Image;
 
 class Enzyme extends Entity
 {
@@ -17,7 +18,7 @@ class Enzyme extends Entity
 		setHitboxTo(graphic);
 		type = "enzyme";
 
-		life = HXP.rand(10) + 10;
+		life = Random.randInt(10) + 10;
 	}
 
 	public override function update()
@@ -25,11 +26,11 @@ class Enzyme extends Entity
 		life -= HXP.elapsed;
 		if (life < 0)
 		{
-			world.remove(this);
+			scene.remove(this);
 		}
 
-		x += HXP.random - 0.5;
-		y += HXP.random - 0.5;
+		x += Random.random - 0.5;
+		y += Random.random - 0.5;
 		super.update();
 	}
 

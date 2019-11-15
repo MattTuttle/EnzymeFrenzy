@@ -10,7 +10,6 @@
 	<app preloader="com.haxepunk.Preloader" />
 
 	<classpath name="src" />
-	<haxelib name="nme" />
 	<haxelib name="HaxePunk" />
 
 	<assets path="assets/gfx" rename="gfx" type="image" include="*.png" />
@@ -21,5 +20,4 @@
 	<ndll name="std" />
 	<ndll name="regexp" />
 	<ndll name="zlib" />
-	<ndll name="nme" haxelib="nme" />
 </project>

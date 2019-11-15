@@ -1,8 +1,9 @@
 package entities;
 
-import com.haxepunk.Entity;
-import com.haxepunk.HXP;
-import com.haxepunk.graphics.Spritemap;
+import haxepunk.Entity;
+import haxepunk.HXP;
+import haxepunk.math.Random;
+import haxepunk.graphics.Spritemap;
 
 class Germ extends Entity
 {
@@ -25,8 +26,8 @@ class Germ extends Entity
 
 	public override function update()
 	{
-		moveTowards(HXP.halfWidth, HXP.halfHeight, HXP.random * 0.5);
-		sprite.angle += HXP.random * 3 - 1;
+		moveTowards(HXP.halfWidth, HXP.halfHeight, Random.random * 0.5);
+		sprite.angle += Random.random * 3 - 1;
 		super.update();
 	}
 

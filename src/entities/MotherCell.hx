@@ -1,10 +1,11 @@
 package entities;
 
-import com.haxepunk.Entity;
-import com.haxepunk.HXP;
-import com.haxepunk.Sfx;
-import com.haxepunk.graphics.Spritemap;
-import com.haxepunk.masks.Circle;
+import haxepunk.Entity;
+import haxepunk.HXP;
+import haxepunk.Sfx;
+import haxepunk.math.Random;
+import haxepunk.graphics.Spritemap;
+import haxepunk.masks.Circle;
 
 class MotherCell extends Entity
 {
@@ -24,14 +25,14 @@ class MotherCell extends Entity
 	{
 		if (dead) return;
 		var e:Entity = collide("germ", x, y);
-		image.scale = HXP.random * 0.1 + 0.9;
-		image.angle += HXP.random * 3 - 1;
+		image.scale = Random.random * 0.1 + 0.9;
+		image.angle += Random.random * 3 - 1;
 		if (e != null)
 		{
 			new Sfx("sfx/hit").play(0.3);
 			health -= 1;
-			image.setFrame(10 - health);
-			world.remove(e);
+			image.frame = 10 - health;
+			scene.remove(e);
 			if (health <= 0)
 			{
 				kill();
@@ -42,16 +43,16 @@ class MotherCell extends Entity
 
 	public function kill()
 	{
-		if (world != null)
+		if (scene != null)
 		{
 			new Sfx("sfx/explosion").play(0.3);
-			world.remove(this);
+			scene.remove(this);
 		}
 		health = 0;
 	}
 
-	public var dead(getDead, never):Bool;
-	private function getDead():Bool
+	public var dead(get_dead, never):Bool;
+	private function get_dead():Bool
 	{
 		return health <= 0;
 	}

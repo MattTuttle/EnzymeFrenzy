@@ -1,17 +1,18 @@
 package worlds;
 
-import com.haxepunk.Entity;
-import com.haxepunk.HXP;
-import com.haxepunk.Sfx;
-import com.haxepunk.Tween;
-import com.haxepunk.World;
-import com.haxepunk.graphics.Image;
-import com.haxepunk.graphics.Spritemap;
-import com.haxepunk.graphics.Text;
-import com.haxepunk.tweens.sound.Fader;
-import com.haxepunk.utils.Input;
+import haxepunk.Entity;
+import haxepunk.HXP;
+import haxepunk.math.Random;
+import haxepunk.Sfx;
+import haxepunk.Tween;
+import haxepunk.Scene;
+import haxepunk.graphics.Image;
+import haxepunk.graphics.Spritemap;
+import haxepunk.graphics.text.Text;
+import haxepunk.tweens.sound.Fader;
+import haxepunk.input.Mouse;
 
-class MainWorld extends World
+class MainWorld extends Scene
 {
 
 	public function new()
@@ -24,7 +25,7 @@ class MainWorld extends World
 			music = new Sfx("music/background");
 		}
 		music.loop(1, 0);
-		var fader = new Fader(null, TweenType.OneShot);
+		var fader = new Fader(TweenType.OneShot);
 		fader.fadeTo(1, 1);
 		addTween(fader);
 		fading = false;
@@ -61,28 +62,29 @@ class MainWorld extends World
 		germ.add("idle", [0, 1, 2], 6);
 		germ.play("idle");
 		germ.color = color;
-		addGraphic(germ, 15, HXP.rand(HXP.width), HXP.rand(HXP.height));
+		addGraphic(germ, 15, Random.randInt(HXP.width), Random.randInt(HXP.height));
 	}
 
 	private function addEnzyme(color:Int)
 	{
 		var enzyme = new Image("gfx/enzyme.png");
 		enzyme.color = color;
-		addGraphic(enzyme, 15, HXP.rand(HXP.width), HXP.rand(HXP.height));
+		addGraphic(enzyme, 15, Random.randInt(HXP.width), Random.randInt(HXP.height));
 	}
 
 	public override function update()
 	{
-		title.x += HXP.random - 0.5;
-		title.y += HXP.random - 0.5;
+		title.x += Random.random - 0.5;
+		title.y += Random.random - 0.5;
 
-		if (Input.mousePressed && ! fading)
+		if (Mouse.mousePressed && ! fading)
 		{
 			fading = true;
-			var fader = new Fader(function() {
-					HXP.world = new InstructionWorld();
-					music.stop();
-				}, TweenType.OneShot);
+			var fader = new Fader(TweenType.OneShot);
+			fader.onComplete.bind(function() {
+				HXP.scene = new InstructionWorld();
+				music.stop();
+			});
 			fader.fadeTo(0, 1);
 			addTween(fader);
 		}
