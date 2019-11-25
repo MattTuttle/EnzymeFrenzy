@@ -178,7 +178,7 @@ class WhiteBloodCell extends Entity
 		health = 0;
 	}
 
-	public var dead(get_dead, never):Bool;
+	public var dead(get, never):Bool;
 	private function get_dead():Bool
 	{
 		return health <= 0;
@@ -190,7 +190,7 @@ class WhiteBloodCell extends Entity
 	private var maxVelocity:Point;
 
 	private var scoreText:Text;
-	private var score(default, set_score):Int;
+	private var score(default, set):Int;
 	private function set_score(value:Int):Int {
 		score = value;
 		scoreText.text = "Score: " + score;

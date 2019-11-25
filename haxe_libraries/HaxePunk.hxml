@@ -1,0 +1,4 @@
+-D HaxePunk=4.0.2
+# @install: lix --silent download "gh://github.com/MattTuttle/HaxePunk#f175015b6558e5adfb12971842384e4d2d05cafc" into HaxePunk/4.0.2/github/f175015b6558e5adfb12971842384e4d2d05cafc
+# @run: haxelib run-dir HaxePunk /Users/mtuttle/haxe/haxe_libraries/HaxePunk/4.0.2/github/f175015b6558e5adfb12971842384e4d2d05cafc
+-cp ${HAXE_LIBCACHE}/HaxePunk/4.0.2/github/f175015b6558e5adfb12971842384e4d2d05cafc/

@@ -1,0 +1,5 @@
+-D lime=7.6.3
+# @install: lix --silent download "haxelib:/lime#7.6.3" into lime/7.6.3/haxelib
+# @run: haxelib run-dir lime /Users/mtuttle/haxe/haxe_libraries/lime/7.6.3/haxelib
+-cp ${HAXE_LIBCACHE}/lime/7.6.3/haxelib/src
+--macro lime._internal.macros.DefineMacro.run()

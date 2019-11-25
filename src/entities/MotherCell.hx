@@ -51,7 +51,7 @@ class MotherCell extends Entity
 		health = 0;
 	}
 
-	public var dead(get_dead, never):Bool;
+	public var dead(get, never):Bool;
 	private function get_dead():Bool
 	{
 		return health <= 0;
