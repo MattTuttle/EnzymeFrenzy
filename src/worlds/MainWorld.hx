@@ -6,6 +6,7 @@ import haxepunk.math.Random;
 import haxepunk.Sfx;
 import haxepunk.Tween;
 import haxepunk.Scene;
+import haxepunk.assets.AssetCache;
 import haxepunk.graphics.Image;
 import haxepunk.graphics.Spritemap;
 import haxepunk.graphics.text.Text;
@@ -22,7 +23,7 @@ class MainWorld extends Scene
 		// don't layer the music...
 		if (music == null)
 		{
-			music = new Sfx("music/background.mp3");
+			music = AssetCache.global.getSound("assets/music/background.mp3");
 		}
 		music.loop(1, 0);
 		var fader = new Fader(TweenType.OneShot);
@@ -32,11 +33,11 @@ class MainWorld extends Scene
 
 	public override function begin()
 	{
-		var image = new Image("graphics/title.png");
+		var image = new Image("assets/graphics/title.png");
 		image.centerOrigin();
 		title = addGraphic(image, 5, HXP.halfWidth, HXP.halfHeight);
 
-		addGraphic(new Image("graphics/overlay.png"));
+		addGraphic(new Image("assets/graphics/overlay.png"));
 
 		image = new Text("Click to Start");
 		image.centerOrigin();
@@ -57,7 +58,7 @@ class MainWorld extends Scene
 
 	private function addGerm(color:Int)
 	{
-		var germ = new Spritemap("graphics/germ.png", 16, 16);
+		var germ = new Spritemap("assets/graphics/germ.png", 16, 16);
 		germ.add("idle", [0, 1, 2], 6);
 		germ.play("idle");
 		germ.color = color;
@@ -66,7 +67,7 @@ class MainWorld extends Scene
 
 	private function addEnzyme(color:Int)
 	{
-		var enzyme = new Image("graphics/enzyme.png");
+		var enzyme = new Image("assets/graphics/enzyme.png");
 		enzyme.color = color;
 		addGraphic(enzyme, 15, Random.randInt(HXP.width), Random.randInt(HXP.height));
 	}
@@ -81,7 +82,7 @@ class MainWorld extends Scene
 			fader = new Fader(TweenType.OneShot);
 			fader.onComplete.bind(function() {
 				HXP.scene = new InstructionWorld();
-				music.stop();
+				if (music != null) music.stop();
 			});
 			fader.fadeTo(0, 1);
 			addTween(fader, true);

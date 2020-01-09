@@ -1,9 +1,9 @@
 package entities;
 
-import flash.geom.Point;
 import haxepunk.Entity;
 import haxepunk.HXP;
-import haxepunk.Sfx;
+import haxepunk.assets.AssetCache;
+import haxepunk.math.Vector2;
 import haxepunk.math.MathUtil;
 import haxepunk.graphics.Spritemap;
 import haxepunk.graphics.text.Text;
@@ -17,7 +17,7 @@ class WhiteBloodCell extends Entity
 	{
 		super(x, y);
 
-		sprite = new Spritemap("graphics/cell.png", 16, 16);
+		sprite = new Spritemap("assets/graphics/cell.png", 16, 16);
 		sprite.add("idle", [0]);
 		sprite.add("move", [0, 1, 2], 16);
 		sprite.centerOrigin();
@@ -26,10 +26,10 @@ class WhiteBloodCell extends Entity
 
 		health = 1;
 
-		acceleration = new Point();
-		velocity = new Point();
-		gravity = new Point();
-		maxVelocity = new Point(5, 5);
+		acceleration = new Vector2();
+		velocity = new Vector2();
+		gravity = new Vector2();
+		maxVelocity = new Vector2(5, 5);
 	}
 
 	public override function added()
@@ -112,12 +112,12 @@ class WhiteBloodCell extends Entity
 		var germ:Germ = cast(e, Germ);
 		if (germ.sprite.color == sprite.color)
 		{
-			new Sfx("sfx/slurp.mp3").play(0.3);
+			AssetCache.global.getSound("sfx/slurp.mp3").play(0.3);
 			scene.remove(germ);
 		}
 		else
 		{
-			new Sfx("sfx/explode.mp3").play(0.2);
+			AssetCache.global.getSound("sfx/explode.mp3").play(0.2);
 			kill();
 		}
 		score += 3;
@@ -130,7 +130,7 @@ class WhiteBloodCell extends Entity
 		sprite.color = enzyme.image.color;
 		scene.remove(enzyme);
 		score += 1;
-		new Sfx("sfx/pickup.mp3").play(0.3);
+		AssetCache.global.getSound("sfx/pickup.mp3").play(0.3);
 		return true;
 	}
 
@@ -184,10 +184,10 @@ class WhiteBloodCell extends Entity
 		return health <= 0;
 	}
 
-	private var acceleration:Point;
-	private var velocity:Point;
-	private var gravity:Point;
-	private var maxVelocity:Point;
+	private var acceleration:Vector2;
+	private var velocity:Vector2;
+	private var gravity:Vector2;
+	private var maxVelocity:Vector2;
 
 	private var scoreText:Text;
 	private var score(default, set):Int;

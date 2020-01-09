@@ -1,0 +1,14 @@
+-lib HaxePunk
+-main Main
+-cp src
+-debug
+-D hxp_gl_debug
+
+--each
+
+-js bin/game.js
+
+--next
+
+-hl bin/game.hl
+-lib hlsdl

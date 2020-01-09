@@ -1,6 +1,7 @@
 *.sublime*
-.DS_Store
 bin
+.haxelib
+.DS_Store
 Thumbs.db
 
 #intermediate formats

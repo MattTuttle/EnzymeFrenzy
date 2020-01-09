@@ -11,7 +11,7 @@ class Enzyme extends Entity
 	public function new()
 	{
 		super(0, 0);
-		image = new Image("graphics/enzyme.png");
+		image = new Image("assets/graphics/enzyme.png");
 		image.color = HXP.choose(Enzyme.colors);
 		graphic = image;
 
