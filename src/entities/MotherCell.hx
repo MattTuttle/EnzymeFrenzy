@@ -2,6 +2,7 @@ package entities;
 
 import haxepunk.Entity;
 import haxepunk.HXP;
+import haxepunk.Sfx;
 import haxepunk.assets.AssetCache;
 import haxepunk.math.Random;
 import haxepunk.graphics.Spritemap;
@@ -29,7 +30,7 @@ class MotherCell extends Entity
 		image.angle += Random.random * 3 - 1;
 		if (e != null)
 		{
-			AssetCache.global.getSound("assets/sfx/hit.mp3").play(0.3);
+			new Sfx("assets/sfx/hit.mp3").play(0.3);
 			health -= 1;
 			image.frame = 10 - health;
 			scene.remove(e);
@@ -45,7 +46,7 @@ class MotherCell extends Entity
 	{
 		if (scene != null)
 		{
-			AssetCache.global.getSound("assets/sfx/explosion.mp3").play(0.3);
+			new Sfx("assets/sfx/explosion.mp3").play(0.3);
 			scene.remove(this);
 		}
 		health = 0;

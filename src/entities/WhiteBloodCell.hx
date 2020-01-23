@@ -2,6 +2,7 @@ package entities;
 
 import haxepunk.Entity;
 import haxepunk.HXP;
+import haxepunk.Sfx;
 import haxepunk.assets.AssetCache;
 import haxepunk.math.Vector2;
 import haxepunk.math.MathUtil;
@@ -112,12 +113,12 @@ class WhiteBloodCell extends Entity
 		var germ:Germ = cast(e, Germ);
 		if (germ.sprite.color == sprite.color)
 		{
-			AssetCache.global.getSound("sfx/slurp.mp3").play(0.3);
+			new Sfx("sfx/slurp.mp3").play(0.3);
 			scene.remove(germ);
 		}
 		else
 		{
-			AssetCache.global.getSound("sfx/explode.mp3").play(0.2);
+			new Sfx("sfx/explode.mp3").play(0.2);
 			kill();
 		}
 		score += 3;
@@ -130,7 +131,7 @@ class WhiteBloodCell extends Entity
 		sprite.color = enzyme.image.color;
 		scene.remove(enzyme);
 		score += 1;
-		AssetCache.global.getSound("sfx/pickup.mp3").play(0.3);
+		new Sfx("sfx/pickup.mp3").play(0.3);
 		return true;
 	}
 

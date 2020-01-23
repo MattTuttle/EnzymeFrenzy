@@ -23,7 +23,7 @@ class MainWorld extends Scene
 		// don't layer the music...
 		if (music == null)
 		{
-			music = AssetCache.global.getSound("assets/music/background.mp3");
+			music = new Sfx("assets/music/background.mp3");
 		}
 		music.loop(1, 0);
 		var fader = new Fader(TweenType.OneShot);

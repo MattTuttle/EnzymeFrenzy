@@ -8,7 +8,7 @@
 
 -js bin/game.js
 
---next
+# --next
 
--hl bin/game.hl
--lib hlsdl
+# -hl bin/game.hl
+# -lib hlsdl
