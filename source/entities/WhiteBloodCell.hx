@@ -1,10 +1,10 @@
 package entities;
 
-import flash.geom.Point;
 import haxepunk.Entity;
 import haxepunk.HXP;
 import haxepunk.Sfx;
 import haxepunk.math.MathUtil;
+import haxepunk.math.Vector2;
 import haxepunk.graphics.Spritemap;
 import haxepunk.graphics.text.Text;
 import haxepunk.masks.Circle;
@@ -26,17 +26,19 @@ class WhiteBloodCell extends Entity
 
 		health = 1;
 
-		acceleration = new Point();
-		velocity = new Point();
-		gravity = new Point();
-		maxVelocity = new Point(5, 5);
+		acceleration = new Vector2();
+		velocity = new Vector2();
+		gravity = new Vector2();
+		maxVelocity = new Vector2(5, 5);
 	}
 
 	public override function added()
 	{
 		scoreText = new Text("Score: 0", 20, 20, 100, 20);
 		scoreText.centerOrigin();
-		scene.addGraphic(scoreText).layer = 0;
+        scene.may(s -> {
+            s.addGraphic(scoreText).layer = 0;
+        });
 		score = 0;
 	}
 
@@ -113,7 +115,9 @@ class WhiteBloodCell extends Entity
 		if (germ.sprite.color == sprite.color)
 		{
 			new Sfx("sfx/slurp.mp3").play(0.3);
-			scene.remove(germ);
+            scene.may(s -> {
+                s.remove(germ);
+            });
 		}
 		else
 		{
@@ -128,7 +132,9 @@ class WhiteBloodCell extends Entity
 	{
 		var enzyme:Enzyme = cast(e, Enzyme);
 		sprite.color = enzyme.image.color;
-		scene.remove(enzyme);
+        scene.may(s -> {
+            s.remove(enzyme);
+        });
 		score += 1;
 		new Sfx("sfx/pickup.mp3").play(0.3);
 		return true;
@@ -171,10 +177,9 @@ class WhiteBloodCell extends Entity
 	public function kill()
 	{
 		if (dead) return;
-		if (scene != null)
-		{
-			scene.remove(this);
-		}
+        scene.may(s -> {
+			s.remove(this);
+		});
 		health = 0;
 	}
 
@@ -184,10 +189,10 @@ class WhiteBloodCell extends Entity
 		return health <= 0;
 	}
 
-	private var acceleration:Point;
-	private var velocity:Point;
-	private var gravity:Point;
-	private var maxVelocity:Point;
+	private var acceleration:Vector2;
+	private var velocity:Vector2;
+	private var gravity:Vector2;
+	private var maxVelocity:Vector2;
 
 	private var scoreText:Text;
 	private var score(default, set):Int;

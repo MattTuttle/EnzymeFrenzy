@@ -24,30 +24,26 @@ class MotherCell extends Entity
 	public override function update()
 	{
 		if (dead) return;
-		var e:Entity = collide("germ", x, y);
 		image.scale = Random.random * 0.1 + 0.9;
 		image.angle += Random.random * 3 - 1;
-		if (e != null)
-		{
+        collide("germ", x, y).may(e -> {
 			new Sfx("sfx/hit.mp3").play(0.3);
 			health -= 1;
 			image.frame = 10 - health;
-			scene.remove(e);
-			if (health <= 0)
-			{
+            scene.ensure().remove(e);
+			if (health <= 0) {
 				kill();
 			}
-		}
+		});
 		super.update();
 	}
 
 	public function kill()
 	{
-		if (scene != null)
-		{
+        scene.may(s -> {
 			new Sfx("sfx/explosion.mp3").play(0.3);
-			scene.remove(this);
-		}
+			s.remove(this);
+		});
 		health = 0;
 	}
 

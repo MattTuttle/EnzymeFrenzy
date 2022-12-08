@@ -2,7 +2,9 @@ package entities;
 
 import haxepunk.Entity;
 import haxepunk.HXP;
+import haxepunk.math.Vector2;
 import haxepunk.math.Random;
+import haxepunk.math.MathUtil;
 import haxepunk.graphics.Image;
 
 class Enzyme extends Entity
@@ -10,9 +12,15 @@ class Enzyme extends Entity
 
 	public function new()
 	{
-		super(0, 0);
+        var pos = new Vector2();
+		MathUtil.angleXY(pos,
+                Random.randInt(360),
+                Random.randInt(100) + 50,
+                HXP.halfWidth, HXP.halfHeight);
+		super(pos.x, pos.y);
 		image = new Image("graphics/enzyme.png");
 		image.color = HXP.choose(Enzyme.colors);
+        image.centerOrigin();
 		graphic = image;
 
 		setHitboxTo(graphic);
@@ -26,11 +34,13 @@ class Enzyme extends Entity
 		life -= HXP.elapsed;
 		if (life < 0)
 		{
-			scene.remove(this);
+            scene.may(s -> {
+                s.remove(this);
+            });
+            life = 0;
 		}
 
-		x += Random.random - 0.5;
-		y += Random.random - 0.5;
+        image.angle += 1;
 		super.update();
 	}
 

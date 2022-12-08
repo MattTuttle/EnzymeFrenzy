@@ -1,6 +1,6 @@
 import haxepunk.Engine;
 import haxepunk.HXP;
-import worlds.MainWorld;
+import scenes.MainMenu;
 
 class Main extends Engine
 {
@@ -16,24 +16,20 @@ class Main extends Engine
 		super(kScreenWidth, kScreenHeight, kFrameRate, false);
 	}
 
+    @:preload("assets/graphics", "graphics")
+    @:preload("assets/sfx", "sfx")
+    @:preload("assets/music", "music")
+    @:preload("assets/font", "font")
 	override public function init()
 	{
 #if debug
-	#if flash
-		if (flash.system.Capabilities.isDebugger)
-	#end
-		{
-			HXP.console.enable();
-		}
+        HXP.console.enable();
 #end
 		HXP.screen.color = kClearColor;
 		// HXP.screen.scale = 1;
-		HXP.scene = new MainWorld();
+		HXP.scene = new MainMenu();
 	}
 
-	public static function main()
-	{
-		new Main();
-	}
+	public static function main() new Main();
 
 }

@@ -1,7 +1,6 @@
-package worlds;
+package scenes;
 
 import haxepunk.HXP;
-import haxepunk.Sfx;
 import haxepunk.Tween;
 import haxepunk.Scene;
 import haxepunk.math.Random;
@@ -15,7 +14,7 @@ import entities.WhiteBloodCell;
 import entities.Germ;
 import entities.Enzyme;
 
-class GameWorld extends Scene
+class Game extends Scene
 {
 
 	public function new()
@@ -39,7 +38,8 @@ class GameWorld extends Scene
 
 		enzymeTimer.start();
 		germTimer.start();
-		addGraphic(new Image("graphics/overlay.png")).layer = 5;
+
+		addGraphic(new Image("graphics/overlay.png")).layer = -5;
 	}
 
 	private function spawnEnzyme()
@@ -63,7 +63,6 @@ class GameWorld extends Scene
 		}
 
 		var enzyme = new Enzyme();
-		MathUtil.angleXY(enzyme, Random.randInt(360), Random.randInt(100) + 50, HXP.halfWidth, HXP.halfHeight);
 		add(enzyme);
 		if (gameover == false)
 		{
@@ -74,13 +73,11 @@ class GameWorld extends Scene
 	private function spawnGerm()
 	{
 		// TODO: check if an enzyme of matching color is currently on the screen
-		var germ = new Germ();
-		MathUtil.angleXY(germ, Random.randInt(360), 250, HXP.halfWidth, HXP.halfHeight);
-		add(germ);
+		add(new Germ());
 
 		if (gameover == false)
 		{
-			germTimer.reset(Random.random * 3);
+			germTimer.reset(Random.random * 3 + 1);
 		}
 	}
 
@@ -90,7 +87,7 @@ class GameWorld extends Scene
 		{
 			if (Mouse.mousePressed)
 			{
-				HXP.scene = new MainWorld();
+				HXP.scene = new MainMenu();
 			}
 			// only do this once on game over
 			if (gameover == false)
@@ -98,7 +95,7 @@ class GameWorld extends Scene
 				mother.kill();
 				player.kill();
 
-				var text = new Text("Game Over", HXP.halfWidth, HXP.halfHeight);
+				var text = new Text("Game Over");
 				text.centerOrigin();
 				addGraphic(text).layer = 0;
 
@@ -106,13 +103,13 @@ class GameWorld extends Scene
 				text.centerOrigin();
 				addGraphic(text).layer = 0;
 			}
-			gameover = true;
-		}
+            gameover = true;
+        }
 
 		super.update();
 	}
 
-	private var gameover:Bool;
+	private var gameover:Bool = false;
 	private var player:WhiteBloodCell;
 	private var mother:MotherCell;
 	private var enzymeCount:Int;

@@ -3,6 +3,8 @@ package entities;
 import haxepunk.Entity;
 import haxepunk.HXP;
 import haxepunk.math.Random;
+import haxepunk.math.Vector2;
+import haxepunk.math.MathUtil;
 import haxepunk.graphics.Spritemap;
 
 class Germ extends Entity
@@ -10,7 +12,11 @@ class Germ extends Entity
 
 	public function new()
 	{
-		super(0, 0);
+        var pos = new Vector2();
+		MathUtil.angleXY(pos,
+                Random.randInt(360), 250,
+                HXP.halfWidth, HXP.halfHeight);
+		super(pos.x, pos.y);
 		sprite = new Spritemap("graphics/germ.png", 16, 16);
 		var frames = [0, 1, 2];
 		HXP.shuffle(frames);

@@ -1,9 +1,8 @@
-package worlds;
+package scenes;
 
 import haxepunk.Entity;
 import haxepunk.HXP;
 import haxepunk.math.Random;
-import haxepunk.Sfx;
 import haxepunk.Tween;
 import haxepunk.Scene;
 import haxepunk.graphics.Image;
@@ -12,19 +11,13 @@ import haxepunk.graphics.text.Text;
 import haxepunk.tweens.sound.Fader;
 import haxepunk.input.Mouse;
 
-class MainWorld extends Scene
+class MainMenu extends Scene
 {
 
 	public function new()
 	{
 		super();
 
-		// don't layer the music...
-		if (music == null)
-		{
-			music = new Sfx("music/background.mp3");
-		}
-		music.loop(1, 0);
 		var fader = new Fader(TweenType.OneShot);
 		fader.fadeTo(1, 1);
 		addTween(fader, true);
@@ -80,8 +73,7 @@ class MainWorld extends Scene
 		{
 			fader = new Fader(TweenType.OneShot);
 			fader.onComplete.bind(function() {
-				HXP.scene = new InstructionWorld();
-				music.stop();
+				HXP.scene = new Instruction();
 			});
 			fader.fadeTo(0, 1);
 			addTween(fader, true);
@@ -89,7 +81,6 @@ class MainWorld extends Scene
 		super.update();
 	}
 
-	private static var music:Sfx;
 	private var title:Entity;
 	private var fader:Fader;
 
